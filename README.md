@@ -64,7 +64,7 @@ JOIN customer c ON t.customer_id = c.customer_id;
 
 4. Правки к ДЗ. 
 
-CREATE INDEX idx_paymentdate ON payment (payment_date);
+Индекс для payment был создан в пункте один таким образом - CREATE INDEX idx_payment_payment_date ON payment (payment_date);
 
 EXPLAIN ANALYZE 
 SELECT DISTINCT CONCAT(c.last_name, ' ', c.first_name), SUM(p.amount) OVER (PARTITION BY c.customer_id, f.title)
