@@ -23,7 +23,7 @@ where date(p.payment_date) = '2005-07-30' and p.payment_date = r.rental_date and
 
 ![sql](https://github.com/gaming4funNel/sdb-homework-12-05/blob/main/img/before.png)
 
-1. Добавление индексов сократило время запроса не значительно
+1. Добавление индексов сократило время запроса не значительно.
 
 CREATE INDEX idx_payment_payment_date ON payment (payment_date);
 CREATE INDEX idx_rental_rental_date ON rental (rental_date);
@@ -61,6 +61,18 @@ FROM (
 JOIN customer c ON t.customer_id = c.customer_id;
 
 ![sql](https://github.com/gaming4funNel/sdb-homework-12-05/blob/main/img/index3.png)
+
+4. Правки к ДЗ. 
+
+CREATE INDEX idx_paymentdate ON payment (payment_date);
+
+EXPLAIN ANALYZE 
+SELECT DISTINCT CONCAT(c.last_name, ' ', c.first_name), SUM(p.amount) OVER (PARTITION BY c.customer_id, f.title)
+FROM payment p, rental r, customer c, inventory i, film f
+WHERE p.payment_date >= '2005-07-30' AND p.payment_date < DATE_ADD('2005-07-30', INTERVAL 1 DAY) 
+  AND p.payment_date = r.rental_date AND r.customer_id = c.customer_id AND i.inventory_id = r.inventory_id;
+
+![sql](https://github.com/gaming4funNel/sdb-homework-12-05/blob/main/img/index4.png)
 
 ## Дополнительные задания (со звёздочкой*)
 Эти задания дополнительные, то есть не обязательные к выполнению, и никак не повлияют на получение вами зачёта по этому домашнему заданию. Вы можете их выполнить, если хотите глубже шире разобраться в материале.
