@@ -74,6 +74,20 @@ WHERE p.payment_date >= '2005-07-30' AND p.payment_date < DATE_ADD('2005-07-30',
 
 ![sql](https://github.com/gaming4funNel/sdb-homework-12-05/blob/main/img/index4.png)
 
+5. Правки к ДЗ2.
+
+Добавил джоины и правку с датой к индексу. Запрос стал быстрее, но не быстрее того, что был сделан в задании 2 (40.3 против 18.3). 
+
+SELECT DISTINCT CONCAT(c.last_name, ' ', c.first_name), SUM(p.amount) OVER (PARTITION BY c.customer_id, f.title)
+FROM payment p
+JOIN rental r ON p.payment_date = r.rental_date
+JOIN inventory i ON i.inventory_id = r.inventory_id
+JOIN customer c ON r.customer_id = c.customer_id
+JOIN film f ON i.film_id = f.film_id
+WHERE p.payment_date >= '2005-07-30' AND p.payment_date < DATE_ADD('2005-07-30', INTERVAL 1 DAY);
+
+![sql](https://github.com/gaming4funNel/sdb-homework-12-05/blob/main/img/index5.png)
+
 ## Дополнительные задания (со звёздочкой*)
 Эти задания дополнительные, то есть не обязательные к выполнению, и никак не повлияют на получение вами зачёта по этому домашнему заданию. Вы можете их выполнить, если хотите глубже шире разобраться в материале.
 
